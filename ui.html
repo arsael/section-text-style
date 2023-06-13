@@ -1,0 +1,97 @@
+<html lang="en">
+  <head>
+      <style>
+        html, body { margin:0; padding:0; background-color:#2a2a2a; color:#fff; font-family:Inter,Roboto,sans-serif; font-weight:normal; font-style:normal; font-size:11px; }
+      </style>
+      <script type="text/javascript">
+        let fontsList = [];
+        function Init() {
+          parent.postMessage({ pluginMessage:{ type:'load' }}, '*');          
+        }
+        function SelectAllTextLayers() {
+          parent.postMessage({ pluginMessage:{ type:'select-all-text-layers' }}, '*');
+        }
+        function SetFont(layerIds, inputFamily, inputStyle, familyChange = false) {
+          const family = fontsList[inputFamily.value][0];
+          const style = familyChange ? fontsList[inputFamily.value][1][0] : fontsList[inputFamily.value][1][inputStyle.value];
+          for (const it of layerIds)
+            parent.postMessage({ pluginMessage:{ payload:{ id:it, family:family, style:style }, type:'set-font'}}, '*');
+        }
+        function GetIndexOfFamily(family) {
+          for (let i = 0; i < fontsList.length; i++)
+            if (fontsList[i][0] === family)
+              return i;
+          return -1;
+        }
+        function CreateFamilySelect(family) {
+          const select = document.createElement('select');
+          for (let i = 0; i < fontsList.length; i++) {
+            const opt = document.createElement('option');
+            opt.value = i;
+            opt.innerHTML = fontsList[i][0];
+            select.appendChild(opt);
+          }
+          select.value = GetIndexOfFamily(family);
+          return select;
+        }
+        function CreateStyleSelect(familyId, style, select = null) {
+          if (select === null)
+            select = document.createElement('select');
+          else
+            while (select.firstChild)
+              select.removeChild(select.firstChild);
+          let styleIdx;
+          for (let i = 0; i < fontsList[familyId][1].length; i++) {
+            let opt = document.createElement('option');
+            opt.value = i;
+            opt.innerHTML = fontsList[familyId][1][i];
+            if (style === opt.innerHTML)
+              styleIdx = i;
+            select.appendChild(opt);
+          }
+          select.value = styleIdx;
+          return select;
+        }
+        function UpdateTextLayers(list) {
+          const container = document.getElementById("stylesContainer");
+          while (container.firstChild)
+            container.removeChild(container.firstChild);
+          const div = document.createElement('div');
+          for (let i = 0; i < list.length; i++) {
+            const familyStyle = list[i][0].split('#');
+            const selectFamily = CreateFamilySelect(familyStyle[0]);
+            const selectStyle = CreateStyleSelect(selectFamily.selectedIndex, familyStyle[1]);
+            selectFamily.onchange = () => { SetFont(list[i][1], selectFamily, selectStyle, true) };
+            selectStyle.onchange = () => { SetFont(list[i][1], selectFamily, selectStyle, false) };
+            div.appendChild(document.createTextNode(`${i})`));
+            div.appendChild(selectFamily);
+            div.appendChild(selectStyle);
+          }
+          document.getElementById("stylesContainer").appendChild(div);
+        }
+        function OnSelectChange(val) {
+          const select = document.getElementById("tmpSelectStyle");
+          while (select.firstChild)
+            select.removeChild(select.firstChild);
+          for (let i = 0; i < fontsList[val][1].length; i++) {
+            let opt = document.createElement('option');
+            opt.value = i;
+            opt.innerHTML = fontsList[val][1][i];
+            select.appendChild(opt);
+          }
+        }
+        onmessage = (ev) =>  { // хз почему, но если объявить функцию по-нормальному, оно не работает
+          const msg = ev.data.pluginMessage;
+          if (msg.type === 'available-fonts-list')
+            fontsList = msg.payload;
+          else if (msg.type === 'grouped-text-layers')
+            UpdateTextLayers(msg.payload);
+        };
+      </script>
+      <title>section-text-styles</title>
+  </head>
+  <body onload="Init()">
+    <p><input type="button" value="Select all text layers" onclick="SelectAllTextLayers()"></p>
+    <div id="stylesContainer"></div>
+  </body>
+</html>

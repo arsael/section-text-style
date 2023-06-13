@@ -1,0 +1,24 @@
+{
+  "name": "section-text-styles",
+  "version": "1.0.0",
+  "description": "The plugin for bulk text styles editing",
+  "main": "code.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "npm run build -- --watch",
+    "lint": "./node_modules/.bin/eslint"
+  },
+  "author": "",
+  "license": "",
+  "devDependencies": {
+    "@figma/plugin-typings": "*",
+    "eslint": "^8.42.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "typescript": "*"
+  }
+}
