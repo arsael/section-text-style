@@ -11,11 +11,12 @@
         function SelectAllTextLayers() {
           parent.postMessage({ pluginMessage:{ type:'select-all-text-layers' }}, '*');
         }
-        function SetFont(layerIds, inputFamily, inputStyle, familyChange = false) {
+        function SetFont(layerIds, inputFamily, inputStyle, inputFontSize, familyChange = false) {
           const family = fontsList[inputFamily.value][0];
           const style = familyChange ? fontsList[inputFamily.value][1][0] : fontsList[inputFamily.value][1][inputStyle.value];
+          const fontSize = inputFontSize.value;
           for (const it of layerIds)
-            parent.postMessage({ pluginMessage:{ payload:{ id:it, family:family, style:style }, type:'set-font'}}, '*');
+            parent.postMessage({ pluginMessage:{ payload:{ id:it, family:family, style:style, fontSize:fontSize }, type:'set-font'}}, '*');
         }
         function GetIndexOfFamily(family) {
           for (let i = 0; i < fontsList.length; i++)
@@ -52,22 +53,62 @@
           select.value = styleIdx;
           return select;
         }
+        function createFontSizeInput(family) {
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.value = family;
+          input.classList.add('font-size');
+          return input;
+        }
+
+        function createTextStyleSpan(family) {
+          const span = document.createElement('span');
+          span.classList.add('text-style');
+          span.innerHTML = family;
+          return span;
+        }
         function UpdateTextLayers(list) {
           const container = document.getElementById("stylesContainer");
           while (container.firstChild)
             container.removeChild(container.firstChild);
-          const div = document.createElement('div');
+          const table = document.createElement('table');
           for (let i = 0; i < list.length; i++) {
+            const row = document.createElement('tr');
+            const col_1 = document.createElement('td');
+            const col_2 = document.createElement('td');
+            const col_3 = document.createElement('td');
+            const col_4 = document.createElement('td');
             const familyStyle = list[i][0].split('#');
             const selectFamily = CreateFamilySelect(familyStyle[0]);
             const selectStyle = CreateStyleSelect(selectFamily.selectedIndex, familyStyle[1]);
-            selectFamily.onchange = () => { SetFont(list[i][1], selectFamily, selectStyle, true) };
-            selectStyle.onchange = () => { SetFont(list[i][1], selectFamily, selectStyle, false) };
-            div.appendChild(document.createTextNode(`${i})`));
-            div.appendChild(selectFamily);
-            div.appendChild(selectStyle);
+            const selectFontSize = createFontSizeInput(familyStyle[2]);
+            const selectTextStyle = createTextStyleSpan(familyStyle[3]);
+            selectFamily.onchange = () => { SetFont(list[i][1], selectFamily, selectStyle, selectFontSize, true) };
+            selectStyle.onchange = () => { SetFont(list[i][1], selectFamily, selectStyle, selectFontSize, false) };
+            selectFontSize.onchange = () => { SetFont(list[i][1], selectFamily, selectStyle, selectFontSize, false) };
+            col_1.appendChild(selectTextStyle);
+            col_2.appendChild(selectFamily);
+            col_3.appendChild(selectStyle);
+            col_4.appendChild(selectFontSize);
+            row.appendChild(col_1);
+            row.appendChild(col_2);
+            row.appendChild(col_3);
+            row.appendChild(col_4);
+            table.appendChild(row);
           }
-          document.getElementById("stylesContainer").appendChild(div);
+          document.getElementById("stylesContainer").appendChild(table);
+        }
+        function clearTextLayers(container) {
+          while (container.firstChild)
+            container.removeChild(container.firstChild);
+        }
+
+        function getContainer() {
+          return document.getElementById("stylesContainer");
+        }
+
+        function prepareStyles(layerGroups) {
+
         }
         function OnSelectChange(val) {
           const select = document.getElementById("tmpSelectStyle");

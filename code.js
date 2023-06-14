@@ -30,10 +30,15 @@ function GetAllTexts() {
 }
 function GetGroupedTextLayers() {
     const layersMap = new Map();
-    const selection = figma.currentPage.selection;
     const allTexts = GetAllTexts();
     for (const it of allTexts) {
-        let key = `${it.fontName.family}#${it.fontName.style}`;
+        let textStyle;
+        if (figma.getStyleById(it.textStyleId) !== null) {
+            textStyle = figma.getStyleById(it.textStyleId).name;
+        } else {
+            textStyle = '–';
+        }
+        let key = `${it.fontName.family}#${it.fontName.style}#${it.fontSize}#${textStyle}`;
         if (layersMap.has(key))
             layersMap.get(key).push(it.id);
         else
@@ -41,13 +46,15 @@ function GetGroupedTextLayers() {
     }
     figma.ui.postMessage({ payload:[...layersMap.entries()], type:'grouped-text-layers'});
 }
-async function SetFont(id, family, style) {
+
+async function SetFont(id, family, style, fontSize) {
     await figma.loadFontAsync({ family:family, style:style });
     const allTexts = GetAllTexts();
     for (const it of allTexts) {
         if (it.id !== id)
             continue;
         it.fontName = { family:family, style:style };
+        it.fontSize = parseInt(fontSize);
     }
     GetGroupedTextLayers();
 }
@@ -61,6 +68,8 @@ figma.ui.onmessage = (msg) => {
         CreateAvailableFontsList();
     else if (msg.type === 'select-all-text-layers')
         figma.currentPage.selection = figma.currentPage.findAllWithCriteria({ types:['TEXT'] });
-    else if (msg.type === 'set-font')
-        SetFont(msg.payload.id, msg.payload.family, msg.payload.style);
+    else if (msg.type === 'set-font') {
+        SetFont(msg.payload.id, msg.payload.family, msg.payload.style, msg.payload.fontSize);
+        console.log(msg.payload.fontSize);
+    }
 };
