@@ -1,6 +1,3 @@
-// import figma from './node_modules/@figma/plugin-typings/index';
-// import __html__ from './node_modules/@figma/plugin-typings/index';
-
 figma.showUI(__html__);
 
 async function CreateAvailableFontsList() {

@@ -1,13 +1,12 @@
 {
-  "name": "Xyigma",
+  "name": "Section text styles",
   "id": "1247584610953822925",
   "api": "1.0.0",
   "main": "code.js",
   "capabilities": [],
   "enableProposedApi": false,
   "editorType": [
-    "figma",
-    "figjam"
+    "figma"
   ],
   "ui": "ui.html",
   "networkAccess": {

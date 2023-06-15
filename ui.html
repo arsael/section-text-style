@@ -32,7 +32,8 @@
             opt.innerHTML = fontsList[i][0];
             select.appendChild(opt);
           }
-          select.value = GetIndexOfFamily(family);
+          select.value = GetIndexOfFamily(family).toString();
+          select.classList.add('font-family');
           return select;
         }
         function CreateStyleSelect(familyId, style, select = null) {
@@ -51,6 +52,7 @@
             select.appendChild(opt);
           }
           select.value = styleIdx;
+          select.classList.add('font-weight');
           return select;
         }
         function createFontSizeInput(family) {
