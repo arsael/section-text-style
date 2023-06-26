@@ -4,7 +4,6 @@
   "description": "The plugin for bulk text styles editing",
   "main": "code.js",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
     "watch": "npm run build -- --watch",
     "lint": "./node_modules/.bin/eslint"
   },

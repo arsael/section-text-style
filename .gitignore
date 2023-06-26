@@ -2,6 +2,6 @@
 *.log
 *.log.*
 node_modules
-
+.idea
 out/
 dist/
