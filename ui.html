@@ -1,12 +1,113 @@
 <html lang="en">
   <head>
       <style>
-        html, body { margin:0; padding:0; background-color:#2a2a2a; color:#fff; font-family:Inter,Roboto,sans-serif; font-weight:normal; font-style:normal; font-size:11px; }
+          * {
+              box-sizing: border-box;
+          }
+        html, body {
+            margin:0;
+            padding:0;
+            background-color:#2a2a2a;
+            color:#fff;
+            font-family:Inter,Roboto,sans-serif;
+            font-weight:normal;
+            font-style:normal;
+            font-size:11px;
+        }
+        table {
+            table-layout: fixed;
+            border-spacing: 0;
+        }
+        table, tr {
+            width: 100%;
+        }
+        tr {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+          #stylesContainer {
+              margin: 8px 8px;
+              width: calc(100% - 16px);
+          }
+        #stylesContainer td, #stylesContainer th {
+            padding: 5px 10px 6px 6px;
+            width: 100%;
+            vertical-align: top;
+        }
+          #stylesContainer th {
+              font-size: 11px;
+              font-family: Inter, Roboto, sans-serif;
+              color: #696969;
+              font-weight: 500;
+              text-align: left;
+          }
+          #stylesContainer td:has(select) {
+              padding: 0;
+          }
+          #stylesContainer td:has(input) {
+              padding: 0;
+          }
+        #stylesContainer td select {
+            box-sizing: border-box;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            height: 24px;
+            background-color: #2A2A2A;
+            border-radius: 2px;
+            padding: 0 10px 0 6px;
+            color: #ffffff;
+            border: 0;
+            width: 100%;
+            font-size: 11px;
+            font-family: Inter, Roboto, sans-serif;
+        }
+        #stylesContainer td select:hover {
+            border: 1px solid #444444;
+            padding-left: 5px;
+            background-image: url('data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAJCAYAAAACTR1pAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABISURBVHgBpc7RDQAQDEVRo3RDNjbKo0Ei9GkTTXzgHpHS7wDIfUmgE23XpmBMfeGJtMF1wPDZ0Isduw9bQeQ3DPuI4BgysIkabv/QX/P8/zAAAAAASUVORK5CYII=');
+            background-position: calc(100% - 12px) center;
+            background-repeat: no-repeat;
+            background-size: 8px;
+        }
+          #stylesContainer td input {
+              box-sizing: border-box;
+              -webkit-appearance: none;
+              -moz-appearance: none;
+              appearance: none;
+              height: 24px;
+              background-color: #2A2A2A;
+              border-radius: 2px;
+              padding: 0 10px 0 6px;
+              color: #ffffff;
+              border: 0;
+              width: 100%;
+              font-size: 11px;
+              font-family: Inter, Roboto, sans-serif;
+          }
+          #stylesContainer td input:hover {
+              border: 1px solid #444444;
+              padding-left: 5px;
+          }
+        #stylesContainer td select:focus-visible {
+            outline: none;
+        }
+          #stylesContainer td input:focus-visible {
+              outline: none;
+          }
+        #stylesContainer tr td:nth-child(4) {
+            width: 64px;
+        }
+          .text-style {
+              font-size: 11px;
+              font-family: Inter, Roboto, sans-serif;
+              font-weight: 500;
+          }
       </style>
       <script type="text/javascript">
         let fontsList = [];
         function Init() {
-          parent.postMessage({ pluginMessage:{ type:'load' }}, '*');          
+          parent.postMessage({ pluginMessage:{ type:'load' }}, '*');
         }
         function SelectAllTextLayers() {
           parent.postMessage({ pluginMessage:{ type:'select-all-text-layers' }}, '*');
@@ -28,7 +129,7 @@
           const select = document.createElement('select');
           for (let i = 0; i < fontsList.length; i++) {
             const opt = document.createElement('option');
-            opt.value = i;
+            opt.value = i.toString();
             opt.innerHTML = fontsList[i][0];
             select.appendChild(opt);
           }
@@ -69,11 +170,29 @@
           span.innerHTML = family;
           return span;
         }
+
         function UpdateTextLayers(list) {
           const container = document.getElementById("stylesContainer");
           while (container.firstChild)
             container.removeChild(container.firstChild);
           const table = document.createElement('table');
+          if (list.length > 0) {
+            const thRow = document.createElement('tr');
+            const th_1 = document.createElement('th');
+            const th_2 = document.createElement('th');
+            const th_3 = document.createElement('th');
+            const th_4 = document.createElement('th');
+            thRow.classList.add('table-header');
+            th_1.innerHTML += 'Style name';
+            th_2.innerHTML += 'Font name';
+            th_3.innerHTML += 'Size';
+            th_4.innerHTML += 'Weight';
+            thRow.appendChild(th_1);
+            thRow.appendChild(th_2);
+            thRow.appendChild(th_3);
+            thRow.appendChild(th_4);
+            table.appendChild(thRow);
+          }
           for (let i = 0; i < list.length; i++) {
             const row = document.createElement('tr');
             const col_1 = document.createElement('td');
@@ -100,29 +219,7 @@
           }
           document.getElementById("stylesContainer").appendChild(table);
         }
-        function clearTextLayers(container) {
-          while (container.firstChild)
-            container.removeChild(container.firstChild);
-        }
 
-        function getContainer() {
-          return document.getElementById("stylesContainer");
-        }
-
-        function prepareStyles(layerGroups) {
-
-        }
-        function OnSelectChange(val) {
-          const select = document.getElementById("tmpSelectStyle");
-          while (select.firstChild)
-            select.removeChild(select.firstChild);
-          for (let i = 0; i < fontsList[val][1].length; i++) {
-            let opt = document.createElement('option');
-            opt.value = i;
-            opt.innerHTML = fontsList[val][1][i];
-            select.appendChild(opt);
-          }
-        }
         onmessage = (ev) =>  { // хз почему, но если объявить функцию по-нормальному, оно не работает
           const msg = ev.data.pluginMessage;
           if (msg.type === 'available-fonts-list')
@@ -134,7 +231,7 @@
       <title>section-text-styles</title>
   </head>
   <body onload="Init()">
-    <p><input type="button" value="Select all text layers" onclick="SelectAllTextLayers()"></p>
+    <!--p><input type="button" value="Select all text layers" onclick="SelectAllTextLayers()"></p-->
     <div id="stylesContainer"></div>
   </body>
 </html>
