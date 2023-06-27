@@ -5,10 +5,10 @@ A small utility plugin to help you find and bulk edit all text styles in your Fi
 
 ## How to use
 This plugin by default will take your selection, find all texts within it and split them into groups with identical text styles:
-— Text Style,
-— Font Family,
-— Font Variant,
-— Font Size.
+1. Text Style,
+2. Font Family,
+3. Font Variant,
+4. Font Size.
 
 Then you will be able to change these parameters directly from plugin or by selecting any of groups and editing it with Figma's tools, like if if selected all those layers manually.
 
