@@ -24,46 +24,6 @@ function GetAllTexts(selection = figma.currentPage.selection) {
   return allTexts;
 }
 
-// function cutProperties(allTexts = GetAllTexts()) {
-//   return allTexts.map((text) => {
-//     const cut = {};
-//     cut.textLayerStyle = figma.getStyleById(text.textStyleId) !== null ?
-//     figma.getStyleById(text.textStyleId).name : '–';
-//     cut.fontFamily = text.fontName.family;
-//     cut.fontStyle = text.fontName.style;
-//     cut.fontSize = text.fontSize;
-//     cut.id = text.id;
-//     return cut;
-//   });
-// }
-//
-// function groupLayersByProperties(layers = cutProperties(), properties = defaultProps) {
-//   const result = [];
-//   for (let i = 0; i < layers.length; i++){
-//     const layer = layers[i];
-//     const matchingGroup = result.find((group) => {
-//       // eslint-disable-next-line no-restricted-syntax
-//       for (const prop of properties) {
-//         if (layer[prop] !== group[prop]) {
-//           return false;
-//         }
-//       }
-//       return true;
-//     });
-//     if (matchingGroup) {
-//       matchingGroup.ids.push(layer.id);
-//     } else {
-//       const newGroup = {};
-//       for (const prop of properties) {
-//         newGroup[prop] = layer[prop];
-//       }
-//       newGroup.ids = [layer.id];
-//       result.push(newGroup);
-//     }
-//   }
-//   return result;
-// }
-
 function GetGroupedTextLayers(allTexts = GetAllTexts()) {
   const layersMap = new Map();
   for (let i = 0; i < allTexts.length; i += 1) {
@@ -97,6 +57,19 @@ async function SetFont(id, family, style, fontSize) {
   GetGroupedTextLayers();
 }
 
+function SelectGroup(family, style, fontSize) {
+  const allTexts = GetAllTexts();
+  const result = [];
+  for (let i = 0; i < allTexts.length; i += 1) {
+    const layer = allTexts[i];
+    if (!(layer.fontName.family !== family
+      || layer.fontName.style !== style || layer.fontSize !== Number(fontSize))) {
+      result.push(layer);
+    } else { /* empty */ }
+  }
+  figma.currentPage.selection = result;
+}
+
 figma.on('selectionchange', () => {
   GetGroupedTextLayers();
 });
@@ -106,7 +79,6 @@ figma.ui.onmessage = (msg) => {
     CreateAvailableFontsList().then();
     figma.ui.resize(400, 320);
   } else if (msg.type === 'select-all-text-layers') figma.currentPage.selection = figma.currentPage.findAllWithCriteria({ types: ['TEXT'] });
-  else if (msg.type === 'set-font') {
-    SetFont(msg.payload.id, msg.payload.family, msg.payload.style, msg.payload.fontSize).then();
-  }
+  else if (msg.type === 'set-font') SetFont(msg.payload.id, msg.payload.family, msg.payload.style, msg.payload.fontSize).then();
+  else if (msg.type === 'select-group') SelectGroup(msg.payload.family, msg.payload.style, msg.payload.fontSize);
 };

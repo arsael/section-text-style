@@ -1,9 +1,9 @@
 <html lang="en">
-  <head>
-      <style>
-          * {
-              box-sizing: border-box;
-          }
+<head>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
         html, body {
             margin:0;
             padding:0;
@@ -25,28 +25,28 @@
             padding-left: 16px;
             padding-right: 16px;
         }
-          #stylesContainer {
-              margin: 8px 8px;
-              width: calc(100% - 16px);
-          }
+        #stylesContainer {
+            margin: 8px 8px;
+            width: calc(100% - 16px);
+        }
         #stylesContainer td, #stylesContainer th {
             padding: 5px 10px 6px 6px;
             width: 100%;
             vertical-align: top;
         }
-          #stylesContainer th {
-              font-size: 11px;
-              font-family: Inter, Roboto, sans-serif;
-              color: #696969;
-              font-weight: 500;
-              text-align: left;
-          }
-          #stylesContainer td:has(select) {
-              padding: 0;
-          }
-          #stylesContainer td:has(input) {
-              padding: 0;
-          }
+        #stylesContainer th {
+            font-size: 11px;
+            font-family: Inter, Roboto, sans-serif;
+            color: #696969;
+            font-weight: 500;
+            text-align: left;
+        }
+        #stylesContainer td:has(select) {
+            padding: 0;
+        }
+        #stylesContainer td:has(input) {
+            padding: 0;
+        }
         #stylesContainer td select {
             box-sizing: border-box;
             -webkit-appearance: none;
@@ -70,168 +70,205 @@
             background-repeat: no-repeat;
             background-size: 8px;
         }
-          #stylesContainer td input {
-              box-sizing: border-box;
-              -webkit-appearance: none;
-              -moz-appearance: none;
-              appearance: none;
-              height: 24px;
-              background-color: #2A2A2A;
-              border-radius: 2px;
-              padding: 0 10px 0 6px;
-              color: #ffffff;
-              border: 0;
-              width: 100%;
-              font-size: 11px;
-              font-family: Inter, Roboto, sans-serif;
-          }
-          #stylesContainer td input:hover {
-              border: 1px solid #444444;
-              padding-left: 5px;
-          }
+        #stylesContainer td input {
+            box-sizing: border-box;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            height: 24px;
+            background-color: #2A2A2A;
+            border-radius: 2px;
+            padding: 0 10px 0 6px;
+            color: #ffffff;
+            border: 0;
+            width: 100%;
+            font-size: 11px;
+            font-family: Inter, Roboto, sans-serif;
+        }
+        #stylesContainer td input:hover {
+            border: 1px solid #444444;
+            padding-left: 5px;
+        }
         #stylesContainer td select:focus-visible {
             outline: none;
         }
-          #stylesContainer td input:focus-visible {
-              outline: none;
-          }
-        #stylesContainer tr td:nth-child(4) {
+        #stylesContainer td input:focus-visible {
+            outline: none;
+        }
+        #stylesContainer tr th:nth-child(4) {
             width: 64px;
         }
-          .text-style {
-              font-size: 11px;
-              font-family: Inter, Roboto, sans-serif;
-              font-weight: 500;
-          }
-      </style>
-      <script type="text/javascript">
-        let fontsList = [];
-        function Init() {
-          parent.postMessage({ pluginMessage:{ type:'load' }}, '*');
+        #stylesContainer tr th:nth-child(5) {
+            width: 24px;
         }
-        function SelectAllTextLayers() {
-          parent.postMessage({ pluginMessage:{ type:'select-all-text-layers' }}, '*');
+        .text-style {
+            font-size: 11px;
+            font-family: Inter, Roboto, sans-serif;
+            font-weight: 500;
         }
-        function SetFont(layerIds, inputFamily, inputStyle, inputFontSize, familyChange = false) {
-          const family = fontsList[inputFamily.value][0];
-          const style = familyChange ? fontsList[inputFamily.value][1][0] : fontsList[inputFamily.value][1][inputStyle.value];
-          const fontSize = inputFontSize.value;
-          for (const it of layerIds)
-            parent.postMessage({ pluginMessage:{ payload:{ id:it, family:family, style:style, fontSize:fontSize }, type:'set-font'}}, '*');
+        #stylesContainer tr td:has(a) {
+            padding: 0;
+            width: 64px;
         }
-        function GetIndexOfFamily(family) {
-          for (let i = 0; i < fontsList.length; i++)
-            if (fontsList[i][0] === family)
-              return i;
-          return -1;
+        table td a {
+            display: flex;
+            width: 24px;
+            height: 24px;
+            justify-content: center;
+            align-items: center;
         }
-        function CreateFamilySelect(family) {
-          const select = document.createElement('select');
-          for (let i = 0; i < fontsList.length; i++) {
-            const opt = document.createElement('option');
-            opt.value = i.toString();
-            opt.innerHTML = fontsList[i][0];
-            select.appendChild(opt);
-          }
-          select.value = GetIndexOfFamily(family).toString();
-          select.classList.add('font-family');
-          return select;
+        table tr:hover a {
+            background-repeat: no-repeat;
+            background-position: center;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCAxMiAxMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik01LjUwMDAzIDIuNTM1NDRWNC41SDYuNTAwMDNWMi41MzU0NEM4LjAzMjg4IDIuNzU0NyA5LjI0NTMzIDMuOTY3MTUgOS40NjQ1OSA1LjVINy41MDAwM1Y2LjVIOS40NjQ1OUM5LjI0NTMzIDguMDMyODUgOC4wMzI4OCA5LjI0NTMgNi41MDAwMyA5LjQ2NDU2VjcuNUg1LjUwMDAzVjkuNDY0NTZDMy45NjcxOCA5LjI0NTMgMi43NTQ3MyA4LjAzMjg1IDIuNTM1NDggNi41SDQuNTAwMDNWNS41SDIuNTM1NDhDMi43NTQ3MyAzLjk2NzE1IDMuOTY3MTggMi43NTQ3IDUuNTAwMDMgMi41MzU0NFpNNS41MDAwMyAxLjUyNzQ2QzMuNDE0MjIgMS43NTgwNCAxLjc1ODA3IDMuNDE0MTkgMS41Mjc0OSA1LjVIMy4wNTE3NmUtMDVWNi41SDEuNTI3NDlDMS43NTgwNyA4LjU4NTgxIDMuNDE0MjIgMTAuMjQyIDUuNTAwMDMgMTAuNDcyNVYxMkg2LjUwMDAzVjEwLjQ3MjVDOC41ODU4NCAxMC4yNDIgMTAuMjQyIDguNTg1ODEgMTAuNDcyNiA2LjVIMTJWNS41SDEwLjQ3MjZDMTAuMjQyIDMuNDE0MTkgOC41ODU4NCAxLjc1ODA0IDYuNTAwMDMgMS41Mjc0NlYwSDUuNTAwMDNWMS41Mjc0NloiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=');
         }
-        function CreateStyleSelect(familyId, style, select = null) {
-          if (select === null)
-            select = document.createElement('select');
-          else
-            while (select.firstChild)
-              select.removeChild(select.firstChild);
-          let styleIdx;
-          for (let i = 0; i < fontsList[familyId][1].length; i++) {
-            let opt = document.createElement('option');
-            opt.value = i;
-            opt.innerHTML = fontsList[familyId][1][i];
-            if (style === opt.innerHTML)
-              styleIdx = i;
-            select.appendChild(opt);
-          }
-          select.value = styleIdx;
-          select.classList.add('font-weight');
-          return select;
+        table td a:hover {
+            background-color: #383838;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCAxMiAxMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik01LjUwMDAzIDIuNTM1NDRWNC41SDYuNTAwMDNWMi41MzU0NEM4LjAzMjg4IDIuNzU0NyA5LjI0NTMzIDMuOTY3MTUgOS40NjQ1OSA1LjVINy41MDAwM1Y2LjVIOS40NjQ1OUM5LjI0NTMzIDguMDMyODUgOC4wMzI4OCA5LjI0NTMgNi41MDAwMyA5LjQ2NDU2VjcuNUg1LjUwMDAzVjkuNDY0NTZDMy45NjcxOCA5LjI0NTMgMi43NTQ3MyA4LjAzMjg1IDIuNTM1NDggNi41SDQuNTAwMDNWNS41SDIuNTM1NDhDMi43NTQ3MyAzLjk2NzE1IDMuOTY3MTggMi43NTQ3IDUuNTAwMDMgMi41MzU0NFpNNS41MDAwMyAxLjUyNzQ2QzMuNDE0MjIgMS43NTgwNCAxLjc1ODA3IDMuNDE0MTkgMS41Mjc0OSA1LjVIMy4wNTE3NmUtMDVWNi41SDEuNTI3NDlDMS43NTgwNyA4LjU4NTgxIDMuNDE0MjIgMTAuMjQyIDUuNTAwMDMgMTAuNDcyNVYxMkg2LjUwMDAzVjEwLjQ3MjVDOC41ODU4NCAxMC4yNDIgMTAuMjQyIDguNTg1ODEgMTAuNDcyNiA2LjVIMTJWNS41SDEwLjQ3MjZDMTAuMjQyIDMuNDE0MTkgOC41ODU4NCAxLjc1ODA0IDYuNTAwMDMgMS41Mjc0NlYwSDUuNTAwMDNWMS41Mjc0NloiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=');
         }
-        function createFontSizeInput(family) {
-          const input = document.createElement('input');
-          input.type = 'text';
-          input.value = family;
-          input.classList.add('font-size');
-          return input;
+    </style>
+    <script type="text/javascript">
+      let fontsList = [];
+      function Init() {
+        parent.postMessage({ pluginMessage:{ type:'load' }}, '*');
+      }
+      function SelectAllTextLayers() {
+        parent.postMessage({ pluginMessage:{ type:'select-all-text-layers' }}, '*');
+      }
+      function SetFont(layerIds, inputFamily, inputStyle, inputFontSize, familyChange = false) {
+        const family = fontsList[inputFamily.value][0];
+        const style = familyChange ? fontsList[inputFamily.value][1][0] : fontsList[inputFamily.value][1][inputStyle.value];
+        const fontSize = inputFontSize.value;
+        for (const it of layerIds)
+          parent.postMessage({ pluginMessage:{ payload:{ id:it, family:family, style:style, fontSize:fontSize }, type:'set-font'}}, '*');
+      }
+      function GetIndexOfFamily(family) {
+        for (let i = 0; i < fontsList.length; i++)
+          if (fontsList[i][0] === family)
+            return i;
+        return -1;
+      }
+      function CreateFamilySelect(family) {
+        const select = document.createElement('select');
+        for (let i = 0; i < fontsList.length; i++) {
+          const opt = document.createElement('option');
+          opt.value = i.toString();
+          opt.innerHTML = fontsList[i][0];
+          select.appendChild(opt);
         }
+        select.value = GetIndexOfFamily(family).toString();
+        select.classList.add('font-family');
+        return select;
+      }
+      function CreateStyleSelect(familyId, style, select = null) {
+        if (select === null)
+          select = document.createElement('select');
+        else
+          while (select.firstChild)
+            select.removeChild(select.firstChild);
+        let styleIdx;
+        for (let i = 0; i < fontsList[familyId][1].length; i++) {
+          let opt = document.createElement('option');
+          opt.value = i;
+          opt.innerHTML = fontsList[familyId][1][i];
+          if (style === opt.innerHTML)
+            styleIdx = i;
+          select.appendChild(opt);
+        }
+        select.value = styleIdx;
+        select.classList.add('font-weight');
+        return select;
+      }
+      function CreateFontSizeInput(family) {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = family;
+        input.classList.add('font-size');
+        return input;
+      }
+      function CreateTextStyleSpan(family) {
+        const span = document.createElement('span');
+        span.classList.add('text-style');
+        span.innerHTML = family;
+        return span;
+      }
+      function CreateSelectGroupBtn() {
+        const link  = document.createElement('a');
+        link.setAttribute('href', '#');
+        link.appendChild(document.createTextNode(''));
+        return link;
+      }
 
-        function createTextStyleSpan(family) {
-          const span = document.createElement('span');
-          span.classList.add('text-style');
-          span.innerHTML = family;
-          return span;
+      function UpdateTextLayers(list) {
+        const container = document.getElementById("stylesContainer");
+        while (container.firstChild)
+          container.removeChild(container.firstChild);
+        const table = document.createElement('table');
+        if (list.length > 0) {
+          const thRow = document.createElement('tr');
+          const th_1 = document.createElement('th');
+          const th_2 = document.createElement('th');
+          const th_3 = document.createElement('th');
+          const th_4 = document.createElement('th');
+          const th_5 = document.createElement('th');
+          thRow.classList.add('table-header');
+          th_1.innerHTML += 'Style name';
+          th_2.innerHTML += 'Font name';
+          th_3.innerHTML += 'Size';
+          th_4.innerHTML += 'Weight';
+          thRow.appendChild(th_1);
+          thRow.appendChild(th_2);
+          thRow.appendChild(th_3);
+          thRow.appendChild(th_4);
+          thRow.appendChild(th_5);
+          table.appendChild(thRow);
         }
-
-        function UpdateTextLayers(list) {
-          const container = document.getElementById("stylesContainer");
-          while (container.firstChild)
-            container.removeChild(container.firstChild);
-          const table = document.createElement('table');
-          if (list.length > 0) {
-            const thRow = document.createElement('tr');
-            const th_1 = document.createElement('th');
-            const th_2 = document.createElement('th');
-            const th_3 = document.createElement('th');
-            const th_4 = document.createElement('th');
-            thRow.classList.add('table-header');
-            th_1.innerHTML += 'Style name';
-            th_2.innerHTML += 'Font name';
-            th_3.innerHTML += 'Size';
-            th_4.innerHTML += 'Weight';
-            thRow.appendChild(th_1);
-            thRow.appendChild(th_2);
-            thRow.appendChild(th_3);
-            thRow.appendChild(th_4);
-            table.appendChild(thRow);
-          }
-          for (let i = 0; i < list.length; i++) {
-            const row = document.createElement('tr');
-            const col_1 = document.createElement('td');
-            const col_2 = document.createElement('td');
-            const col_3 = document.createElement('td');
-            const col_4 = document.createElement('td');
-            const familyStyle = list[i][0].split('#');
-            const selectFamily = CreateFamilySelect(familyStyle[0]);
-            const selectStyle = CreateStyleSelect(selectFamily.selectedIndex, familyStyle[1]);
-            const selectFontSize = createFontSizeInput(familyStyle[2]);
-            const selectTextStyle = createTextStyleSpan(familyStyle[3]);
-            selectFamily.onchange = () => { SetFont(list[i][1], selectFamily, selectStyle, selectFontSize, true) };
-            selectStyle.onchange = () => { SetFont(list[i][1], selectFamily, selectStyle, selectFontSize, false) };
-            selectFontSize.onchange = () => { SetFont(list[i][1], selectFamily, selectStyle, selectFontSize, false) };
-            col_1.appendChild(selectTextStyle);
-            col_2.appendChild(selectFamily);
-            col_3.appendChild(selectStyle);
-            col_4.appendChild(selectFontSize);
-            row.appendChild(col_1);
-            row.appendChild(col_2);
-            row.appendChild(col_3);
-            row.appendChild(col_4);
-            table.appendChild(row);
-          }
-          document.getElementById("stylesContainer").appendChild(table);
+        for (let i = 0; i < list.length; i++) {
+          const row = document.createElement('tr');
+          const col_1 = document.createElement('td');
+          const col_2 = document.createElement('td');
+          const col_3 = document.createElement('td');
+          const col_4 = document.createElement('td');
+          const col_5 = document.createElement('td');
+          const familyStyle = list[i][0].split('#');
+          const selectFamily = CreateFamilySelect(familyStyle[0]);
+          const selectStyle = CreateStyleSelect(selectFamily.selectedIndex, familyStyle[1]);
+          const selectFontSize = CreateFontSizeInput(familyStyle[2]);
+          const selectTextStyle = CreateTextStyleSpan(familyStyle[3]);
+          const btnSelect = CreateSelectGroupBtn();
+          selectFamily.onchange = () => { SetFont(list[i][1], selectFamily, selectStyle, selectFontSize, true) };
+          selectStyle.onchange = () => { SetFont(list[i][1], selectFamily, selectStyle, selectFontSize, false) };
+          selectFontSize.onchange = () => { SetFont(list[i][1], selectFamily, selectStyle, selectFontSize, false) };
+          btnSelect.onclick = () => parent.postMessage({ pluginMessage:{ payload:{ family:familyStyle[0], style:familyStyle[1], fontSize:familyStyle[2] }, type:'select-group'}}, '*');
+          col_1.appendChild(selectTextStyle);
+          col_2.appendChild(selectFamily);
+          col_3.appendChild(selectStyle);
+          col_4.appendChild(selectFontSize);
+          col_5.appendChild(btnSelect);
+          row.appendChild(col_1);
+          row.appendChild(col_2);
+          row.appendChild(col_3);
+          row.appendChild(col_4);
+          row.appendChild(col_5);
+          table.appendChild(row);
         }
+        document.getElementById("stylesContainer").appendChild(table);
+      }
 
-        onmessage = (ev) =>  { // хз почему, но если объявить функцию по-нормальному, оно не работает
-          const msg = ev.data.pluginMessage;
-          if (msg.type === 'available-fonts-list')
-            fontsList = msg.payload;
-          else if (msg.type === 'grouped-text-layers')
-            UpdateTextLayers(msg.payload);
-        };
-      </script>
-      <title>section-text-styles</title>
-  </head>
-  <body onload="Init()">
-    <!--p><input type="button" value="Select all text layers" onclick="SelectAllTextLayers()"></p-->
-    <div id="stylesContainer"></div>
-  </body>
+      onmessage = (ev) =>  { // хз почему, но если объявить функцию по-нормальному, оно не работает
+        const msg = ev.data.pluginMessage;
+        if (msg.type === 'available-fonts-list')
+          fontsList = msg.payload;
+        else if (msg.type === 'grouped-text-layers')
+          UpdateTextLayers(msg.payload);
+      };
+    </script>
+    <title>section-text-styles</title>
+</head>
+<body onload="Init()">
+<!--p><input type="button" value="Select all text layers" onclick="SelectAllTextLayers()"></p-->
+<div id="stylesContainer"></div>
+</body>
 </html>
